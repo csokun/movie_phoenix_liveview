@@ -1,0 +1,10 @@
+<div class="flex mx-auto max-w-7xl">
+  <div class="w-9/12">
+    <img class="w-full" src="/catalog/<%= @movie["image"] %>" alt="">
+  </div>
+
+  <div class="w-3/12 h-full bg-gray-400">
+testing
+  </div>
+</div>
+

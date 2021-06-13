@@ -1,6 +1,10 @@
 defmodule MovieWeb.WatchController do
   use MovieWeb, :controller
 
+  def index(conn, %{"id" => id}) do
+    render(conn, "index.html", movie: Movie.MediaServer.get_movie(id))
+  end
+
   def show(%{req_headers: headers} = conn, %{"id" => id}) do
     video = Movie.MediaServer.get_movie(id)
     send_video(conn, headers, video)

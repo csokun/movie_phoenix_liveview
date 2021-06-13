@@ -9,6 +9,7 @@ defmodule Movie.MediaServer do
   end
 
   def init(%{path: path} = init_args) do
+    init_args |> IO.inspect()
     movies = Media.get_movies(path)
     state = %{movies: movies, artists: [], options: init_args}
     {:ok, state, {:continue, :loading}}
@@ -19,8 +20,8 @@ defmodule Movie.MediaServer do
   end
 
   def get_movie(id) when is_binary(id) do
-    GenServer.call(__MODULE__, :get_movies)
-    |> Enum.find(fn %{code: code} -> code == id end)
+    get_movies()
+    |> Enum.find(fn %{"code" => code} -> code == id end)
   end
 
   # server callback

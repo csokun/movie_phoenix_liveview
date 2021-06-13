@@ -5,11 +5,16 @@ defmodule Movie.Application do
 
   use Application
 
+  defp media_server_config,
+    do: %{
+      path: System.fetch_env!("MEDIA_PATH")
+    }
+
   def start(_type, _args) do
     children = [
       # Start the Ecto repository
       Movie.Repo,
-      Movie.MediaServer,
+      {Movie.MediaServer, media_server_config()},
       # Start the Telemetry supervisor
       MovieWeb.Telemetry,
       # Start the PubSub system

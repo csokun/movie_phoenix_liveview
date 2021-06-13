@@ -29,7 +29,7 @@ defmodule MovieWeb.Endpoint do
   plug Plug.Static,
     at: "/catalog",
     gzip: false,
-    from: "/media/sokun/Backup/_tmp/catalog2"
+    from: System.fetch_env!("MEDIA_PATH")
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

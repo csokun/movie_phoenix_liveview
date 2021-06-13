@@ -18,6 +18,7 @@ defmodule MovieWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    get "/watch/:id", WatchController, :index
   end
 
   # Other scopes may use custom stacks.
