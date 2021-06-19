@@ -19,7 +19,6 @@ defmodule Movie.Media do
 
       false ->
         generate_metadata(path)
-        get_metadata(path)
     end
   end
 
@@ -38,16 +37,22 @@ defmodule Movie.Media do
     content_type = MIME.from_path(video_file)
     %{size: file_size} = File.stat!(video_file)
 
+    %{
+      "code" => code,
+      "actress" => [],
+      "description" => "",
+      "production" => code |> String.split("-") |> hd,
+      "tags" => [],
+      "image" => image,
+      "video_file" => video_file,
+      "content_type" => content_type,
+      "file_size" => file_size
+    }
+  end
+
+  defp save_metadata(metadata, path) do
     content =
-      %{
-        code: code,
-        actress: [],
-        description: "",
-        image: image,
-        video_file: video_file,
-        content_type: content_type,
-        file_size: file_size
-      }
+      metadata
       |> Jason.encode!()
 
     File.write!(Path.join(path, "metadata.json"), content, [:write, {:encoding, :utf8}])

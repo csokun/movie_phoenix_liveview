@@ -3,7 +3,11 @@ defmodule MovieWeb.PageLive do
 
   @impl true
   def mount(_params, _session, socket) do
-    movies = Movie.MediaServer.get_movies()
+    movies =
+      Movie.MediaServer.get_movies()
+      |> Enum.take_random(10)
+      |> IO.inspect()
+
     {:ok, assign(socket, query: "", movies: movies)}
   end
 
@@ -15,26 +19,26 @@ defmodule MovieWeb.PageLive do
   @impl true
   def handle_event("search", %{"q" => query}, socket) do
     case search(query) do
-      %{^query => vsn} ->
-        {:noreply, redirect(socket, external: "https://hexdocs.pm/#{query}/#{vsn}")}
-
-      _ ->
+      nil ->
         {:noreply,
          socket
-         |> put_flash(:error, "No dependencies found matching \"#{query}\"")
-         |> assign(results: %{}, query: query)}
+         |> put_flash(:error, "No movies found matching \"#{query}\"")
+         |> assign(movies: [], query: query)}
+
+      movies ->
+        {:noreply,
+         socket
+         |> assign(:movies, movies)
+         |> assign(:query, query)}
     end
   end
 
   defp search(query) do
-    if not MovieWeb.Endpoint.config(:code_reloader) do
-      raise "action disabled when not in development"
-    end
+    movies = Movie.MediaServer.find_movies(query)
 
-    for {app, desc, vsn} <- Application.started_applications(),
-        app = to_string(app),
-        String.starts_with?(app, query) and not List.starts_with?(desc, ~c"ERTS"),
-        into: %{},
-        do: {app, vsn}
+    case length(movies) == 0 do
+      true -> nil
+      false -> movies
+    end
   end
 end

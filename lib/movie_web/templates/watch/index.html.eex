@@ -1,6 +1,7 @@
 <div class="flex w-full mx-auto space-x-4">
   <div>
-    <video id="my-video" muted controls preload="metadata" class="video-js" width="1280" height="720" data-setup='{}'>
+    <video id="my-video" muted controls preload="metadata" class="video-js" width="1280" height="720" data-setup='{}'
+                                                                                         poster="<%= @movie["image"] %>">
       <source src="/stream/<%= @movie["code"] %>" type="video/mp4" />
     </video>
     <div>
