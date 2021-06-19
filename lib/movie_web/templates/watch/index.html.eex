@@ -1,17 +1,15 @@
-<div class="flex w-full mx-auto space-x-4">
-  <div>
-    <video id="my-video" muted controls preload="metadata" class="video-js" width="1280" height="720" data-setup='{}'
-                                                                                         poster="<%= @movie["image"] %>">
+<div class="h-full mx-auto">
+  <div class="container">
+    <video class="w-full" muted controls preload="metadata" poster="<%= @movie["image"] %>">
       <source src="/stream/<%= @movie["code"] %>" type="video/mp4" />
     </video>
+
     <div>
       <%= @movie["code"] %>
     </div>
   </div>
 
-  <div class="flex-1 h-full bg-gray-400">
-
+  <div class="h-full border-l-2 border-gray-400 w-80">
   </div>
 </div>
 
-<script src="http://vjs.zencdn.net/5.8.7/video.js"></script>
