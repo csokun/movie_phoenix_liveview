@@ -11,24 +11,6 @@
     <script defer phx-track-static type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
   <body>
-    <header class="flex items-center justify-between px-4 py-3 bg-gray-300 border-b-2 border-gray-400 border-opacity-70">
-      <div>
-        <a href="/" class="phx-logo">
-          <img style="width: 240px; height: 50px;" src="<%= Routes.static_path(@conn, "/images/phoenix.png") %>" alt="Phoenix Framework Logo"/>
-        </a>
-      </div>
-
-      <div class="flex-1 px-5">
-      </div>
-     </div>
-
-      <div>
-        <%= if function_exported?(Routes, :live_dashboard_path, 2) do %>
-          <%= link "Live Dashboard", to: Routes.live_dashboard_path(@conn, :home) %>
-        <% end %>
-      </div>
-    </header>
-
     <%= @inner_content %>
   </body>
 </html>

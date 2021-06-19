@@ -1,14 +1,16 @@
-defmodule MovieWeb.PageLive do
+defmodule MovieWeb.HomeLive do
   use MovieWeb, :live_view
 
   @impl true
-  def mount(_params, _session, socket) do
-    movies =
-      Movie.MediaServer.get_movies()
-      |> Enum.take_random(10)
+  def mount(%{"q" => query}, _session, socket) do
+    movies = search(query)
+
+    productions =
+      Movie.MediaServer.get_productions()
       |> IO.inspect()
 
-    {:ok, assign(socket, query: "", movies: movies)}
+    socket = socket |> assign(query: "", movies: movies, productions: productions)
+    {:ok, socket, temporary_assigns: [productions: [], movies: []]}
   end
 
   @impl true
@@ -31,6 +33,11 @@ defmodule MovieWeb.PageLive do
          |> assign(:movies, movies)
          |> assign(:query, query)}
     end
+  end
+
+  defp search("") do
+    Movie.MediaServer.get_movies()
+    |> Enum.take_random(10)
   end
 
   defp search(query) do

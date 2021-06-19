@@ -17,7 +17,7 @@ defmodule MovieWeb.Router do
   scope "/", MovieWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
+    live "/", HomeLive, :index
     get "/watch/:id", WatchController, :index
     get "/stream/:id", WatchController, :show
   end

@@ -9,12 +9,18 @@ defmodule Movie.MediaServer do
   end
 
   def init(init_args) do
-    state = %{movies: [], artists: [], options: init_args}
+    state = %{
+      movies: [],
+      productions: [],
+      artists: [],
+      options: init_args
+    }
+
     {:ok, state, {:continue, :loading}}
   end
 
   def get_movies() do
-    GenServer.call(__MODULE__, :get_movies)
+    GenServer.call(__MODULE__, :get_movies) |> IO.inspect()
   end
 
   def get_movie(id) when is_binary(id) do
@@ -29,15 +35,34 @@ defmodule Movie.MediaServer do
     end)
   end
 
+  def get_productions() do
+    GenServer.call(__MODULE__, :get_productions)
+  end
+
   # server callback
   def handle_continue(:loading, state) do
     %{path: path} = state.options
-    movies = Media.get_movies(path)
     # scan media
-    {:noreply, %{state | movies: movies}}
+    movies = Media.get_movies(path)
+    productions = extract_productions_from_movies(movies)
+    {:noreply, %{state | movies: movies, productions: productions}}
   end
 
   def handle_call(:get_movies, _from, %{movies: movies} = state) do
     {:reply, movies, state}
+  end
+
+  def handle_call(:get_productions, _from, %{productions: productions} = state) do
+    {:reply, productions, state}
+  end
+
+  # helpers
+
+  defp extract_productions_from_movies(movies) do
+    movies
+    |> Enum.group_by(fn %{"production" => proudction} -> proudction end)
+    |> Enum.map(fn {production, movies} ->
+      %{code: production, movie_count: length(movies)}
+    end)
   end
 end
