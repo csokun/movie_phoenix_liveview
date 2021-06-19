@@ -2,15 +2,20 @@ defmodule MovieWeb.HomeLive do
   use MovieWeb, :live_view
 
   @impl true
-  def mount(%{"q" => query}, _session, socket) do
-    movies = search(query)
+  def mount(_params, _session, socket) do
+    movies = search("")
 
-    productions =
-      Movie.MediaServer.get_productions()
-      |> IO.inspect()
+    productions = Movie.MediaServer.get_productions()
 
     socket = socket |> assign(query: "", movies: movies, productions: productions)
     {:ok, socket, temporary_assigns: [productions: [], movies: []]}
+  end
+
+  @impl true
+  def handle_params(params, _uri, socket) do
+    query = params["q"] || ""
+    movies = search(query)
+    {:noreply, socket |> assign(movies: movies, query: query)}
   end
 
   @impl true

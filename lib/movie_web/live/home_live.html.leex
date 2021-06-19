@@ -13,36 +13,37 @@
              placeholder="Search"
              name="q"
              id="q"
-             value="" />
+             value="<%= @query %>" />
     </form>
   </div>
 </div>
 
-  <div class="flex flex-wrap mt-4">
-    <%= for production <- @productions do %>
-      <div phx-click="search" phx-value-q="<%= production.code %>" 
-        class="flex items-center justify-between px-2 py-1 m-1 bg-gray-300 w-[100px] rounded-md hover:cursor-pointer">
-        <div class="hover:underline"><%= production.code %></div>
-        <span class="w-8 h-8 bg-gray-400 rounded-full"><%= production.movie_count %></span>
-      </div>
-    <% end %>
-  </div>
+<div class="flex flex-wrap mt-4">
+  <%= for production <- @productions do %>
+    <%= live_patch to: Routes.home_path(@socket, :index, q: production.code), replace: true do %>
+    <span class="flex items-center justify-between space-x-2 m-1 px-2 py-1 bg-gray-300 w-[100px] rounded-md hover:cursor-pointer">
+      <span class="hover:underline"><%= production.code %></span>
+      <span class="flex items-center justify-center text-white bg-gray-400 rounded-full w-7 h-7"><%= production.movie_count %></span>
+    </span>
+  <% end %>
+<% end %>
+</div>
 
-  <div class="mt-4 grid grid-cols-2 gap-1 lg:gap-2">
-    <%= for r <- @movies do %>
-      <div class="relative border-4 border-white-300 hover:border-pink-400 group">
-        <img class="object-cover w-full h-64 md:h-full shadow-sm" src="<%= r["image"] %>" alt="" width="640" height="400" loading="lazy">
+<div class="mt-4 grid grid-cols-2 gap-1 lg:gap-2">
+  <%= for r <- @movies do %>
+    <div class="relative border-4 border-white-300 hover:border-pink-400 group">
+      <img class="object-cover w-full h-64 md:h-full shadow-sm" src="<%= r["image"] %>" alt="" width="640" height="400" loading="lazy">
 
-        <div class="absolute bottom-0 w-full h-20 px-2 bg-pink-300 opacity-90 group-hover:bg-pink-400">
-          <div class="flex items-center h-full">
-            <img class="w-16 h-16 rounded-full" src="<%= r["image"] %>" alt="">
-            <div class="px-2">
-              <a class="hover:underline" href="/watch/<%= r["code"] %>" alt="watch"><%= r["code"] %></a>
-              <p>NTR</p>
-            </div>
+      <div class="absolute bottom-0 w-full h-20 px-2 bg-pink-300 opacity-90 group-hover:bg-pink-400">
+        <div class="flex items-center h-full">
+          <img class="w-16 h-16 rounded-full" src="<%= r["image"] %>" alt="">
+          <div class="px-2">
+            <a class="hover:underline" href="/watch/<%= r["code"] %>" alt="watch"><%= r["code"] %></a>
+            <p>NTR</p>
           </div>
         </div>
       </div>
-    <% end %>
-  </div>
+    </div>
+  <% end %>
+</div>
 

@@ -20,7 +20,7 @@ defmodule Movie.MediaServer do
   end
 
   def get_movies() do
-    GenServer.call(__MODULE__, :get_movies) |> IO.inspect()
+    GenServer.call(__MODULE__, :get_movies)
   end
 
   def get_movie(id) when is_binary(id) do
@@ -29,9 +29,11 @@ defmodule Movie.MediaServer do
   end
 
   def find_movies(search) do
+    pattern = ~r/^#{search}/i
+
     get_movies()
     |> Enum.filter(fn %{"code" => code} ->
-      String.starts_with?(code, search)
+      Regex.match?(pattern, code)
     end)
   end
 
