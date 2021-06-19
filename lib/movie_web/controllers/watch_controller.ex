@@ -7,19 +7,24 @@ defmodule MovieWeb.WatchController do
 
   def show(%{req_headers: headers} = conn, %{"id" => id}) do
     video = Movie.MediaServer.get_movie(id)
+
     send_video(conn, headers, video)
   end
 
-  defp send_video(conn, headers, video) do
+  defp send_video(conn, headers, %{
+         "content_type" => content_type,
+         "file_size" => file_size,
+         "video_file" => video_file
+       }) do
     offset = get_offset(headers)
 
     conn
-    |> Plug.Conn.put_resp_header("content-type", video.content_type)
+    |> Plug.Conn.put_resp_header("content-type", content_type)
     |> Plug.Conn.put_resp_header(
       "content-range",
-      "bytes #{offset}-#{video.file_size(-1)}/#{video.file_size}"
+      "bytes #{offset}-#{file_size - 1}/#{file_size}"
     )
-    |> Plug.Conn.send_file(200, video.path, offset, video.file_size - offset)
+    |> Plug.Conn.send_file(206, video_file, offset, file_size - offset)
   end
 
   defp get_offset(headers) do

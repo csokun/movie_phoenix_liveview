@@ -19,6 +19,7 @@ defmodule MovieWeb.Router do
 
     live "/", PageLive, :index
     get "/watch/:id", WatchController, :index
+    get "/stream/:id", WatchController, :show
   end
 
   # Other scopes may use custom stacks.

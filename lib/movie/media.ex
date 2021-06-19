@@ -32,14 +32,21 @@ defmodule Movie.Media do
         File.exists?("#{path}/#{code}.#{extension}")
       end)
 
-    image = "/#{code}/#{code}.#{ext}"
+    image = "/catalog/#{code}/#{code}.#{ext}"
+
+    video_file = Path.join(path, "#{code}.mp4")
+    content_type = MIME.from_path(video_file)
+    %{size: file_size} = File.stat!(video_file)
 
     content =
       %{
         code: code,
         actress: [],
         description: "",
-        image: image
+        image: image,
+        video_file: video_file,
+        content_type: content_type,
+        file_size: file_size
       }
       |> Jason.encode!()
 
