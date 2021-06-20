@@ -5,9 +5,18 @@ defmodule MovieWeb.WatchController do
     render(conn, "index.html", movie: Movie.MediaServer.get_movie(id))
   end
 
-  def show(%{req_headers: headers} = conn, %{"id" => id}) do
-    video = Movie.MediaServer.get_movie(id)
+  def show(%{method: "HEAD"} = conn, %{"id" => id}) do
+    %{"content_type" => content_type, "file_size" => file_size} = Movie.MediaServer.get_movie(id)
 
+    conn
+    |> Plug.Conn.put_resp_header("accept-ranges", "bytes")
+    |> Plug.Conn.put_resp_header("content-type", content_type)
+    |> Plug.Conn.put_resp_header("content-length", file_size)
+    |> halt()
+  end
+
+  def show(%{req_headers: headers, method: "GET"} = conn, %{"id" => id}) do
+    video = Movie.MediaServer.get_movie(id)
     send_video(conn, headers, video)
   end
 
@@ -20,6 +29,7 @@ defmodule MovieWeb.WatchController do
 
     conn
     |> Plug.Conn.put_resp_header("content-type", content_type)
+    |> Plug.Conn.put_resp_header("accept-ranges", "bytes")
     |> Plug.Conn.put_resp_header(
       "content-range",
       "bytes #{offset}-#{file_size - 1}/#{file_size}"

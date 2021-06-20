@@ -19,6 +19,8 @@ defmodule MovieWeb.Router do
 
     live "/", HomeLive, :index
     get "/watch/:id", WatchController, :index
+
+    head "/stream/:id", WatchController, :show
     get "/stream/:id", WatchController, :show
   end
 
