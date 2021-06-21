@@ -43,10 +43,10 @@ defmodule Movie.Media do
 
     %{
       "code" => code,
-      "performers" => [],
+      "performers" => "",
       "description" => "",
       "production" => code |> String.split("-") |> hd,
-      "tags" => [],
+      "tags" => "",
       "image" => image,
       "video_file" => video_file,
       "content_type" => content_type,

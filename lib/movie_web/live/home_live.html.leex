@@ -36,9 +36,13 @@
       <div class="absolute bottom-0 w-full h-20 px-2 bg-pink-300 opacity-90 group-hover:bg-pink-400">
         <div class="flex items-center h-full">
           <img class="w-16 h-16 rounded-full" src="<%= r["image"] %>" alt="">
+    
           <div class="px-2">
-            <a class="hover:underline" href="/watch/<%= r["code"] %>" alt="watch"><%= r["code"] %></a>
-            <p>NTR</p>
+            <a class="text-small font-semibold hover:underline" href="/watch/<%= r["code"] %>" alt="watch"><%= r["code"] %></a>
+            <div><p><%= r["description"] %></p></div>
+            <div class="flex flex-wrap">
+              <p>NTR</p>
+            </div>
           </div>
         </div>
       </div>

@@ -48,11 +48,15 @@ defmodule Movie.MediaServer do
   end
 
   def find_movies(search) do
-    pattern = ~r/^#{search}/i
+    pattern = ~r/#{search}/i
+    searchable_fields = ["code", "performers", "description"]
 
     get_movies()
-    |> Enum.filter(fn %{"code" => code} ->
-      Regex.match?(pattern, code)
+    |> Enum.filter(fn movie ->
+      searchable_fields
+      |> Enum.any?(fn field ->
+        Regex.match?(pattern, movie["#{field}"] || "")
+      end)
     end)
   end
 
