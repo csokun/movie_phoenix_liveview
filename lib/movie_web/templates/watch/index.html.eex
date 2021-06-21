@@ -1,9 +1,0 @@
-<div class="container mx-auto">
-  <video class="w-full h-auto" muted controls preload="metadata" poster="<%= @movie["image"] %>">
-    <source src="/stream/<%= @movie["code"] %>" type="video/mp4" />
-  </video>
-
-  <div>
-    <%= @movie["code"] %>
-  </div>
-</div>

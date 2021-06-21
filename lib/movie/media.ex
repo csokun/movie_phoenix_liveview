@@ -7,7 +7,11 @@ defmodule Movie.Media do
     end)
   end
 
-  # {file_size: int, path: "", content_type: "video/mp4"}
+  def save_metadata(%{"code" => code} = movie, catalog_path) do
+    metadata_file = Path.join([catalog_path, code, "metadata.json"])
+    File.write!(metadata_file, Jason.encode!(movie), [:write, {:encoding, :utf8}])
+  end
+
   defp get_metadata(path) do
     file = Path.join(path, "metadata.json")
 
@@ -39,7 +43,7 @@ defmodule Movie.Media do
 
     %{
       "code" => code,
-      "actress" => [],
+      "performers" => [],
       "description" => "",
       "production" => code |> String.split("-") |> hd,
       "tags" => [],
@@ -48,13 +52,5 @@ defmodule Movie.Media do
       "content_type" => content_type,
       "file_size" => file_size
     }
-  end
-
-  defp save_metadata(metadata, path) do
-    content =
-      metadata
-      |> Jason.encode!()
-
-    File.write!(Path.join(path, "metadata.json"), content, [:write, {:encoding, :utf8}])
   end
 end

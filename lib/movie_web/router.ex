@@ -18,10 +18,10 @@ defmodule MovieWeb.Router do
     pipe_through :browser
 
     live "/", HomeLive, :index
-    get "/watch/:id", WatchController, :index
+    live "/watch/:id", WatchLive, :index
 
-    head "/stream/:id", WatchController, :show
-    get "/stream/:id", WatchController, :show
+    head "/stream/:id", StreamController, :show
+    get "/stream/:id", StreamController, :show
   end
 
   # Other scopes may use custom stacks.

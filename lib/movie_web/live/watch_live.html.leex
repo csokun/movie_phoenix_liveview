@@ -1,0 +1,45 @@
+<div class="container mx-auto">
+  <video class="w-full h-auto" muted controls preload="metadata" poster="<%= @movie["image"] %>">
+    <source src="/stream/<%= @movie["code"] %>" type="video/mp4" />
+  </video>
+
+  <div class="px-4 py-4 my-5 bg-gray-300 rounded-md">
+    <form phx-submit="update"
+          class="grid grid-cols-1 md:grid-cols-2 gap-2">
+
+      <div class="grid grid-cols-1 gap-2">
+        <label class="block">
+          <span class="text-gray-700">Movie #</span>
+          <input class="block w-full mt-1 bg-gray-300 form-input" readonly name="code" value="<%= @movie["code"] %>" />
+        </label>
+
+        <label class="block">
+          <span class="text-gray-700">Production</span>
+          <input class="block w-full mt-1 form-input" name="production" value="<%= @movie["production"] %>" />
+        </label>
+
+        <label class="block">
+          <span class="text-gray-700">Performers</span>
+          <input class="block w-full mt-1 form-input" name="performers" value="<%= @movie["performers"] %>" />
+        </label>
+      </div>
+
+      <div class="grid grid-cols-1">
+        <label class="block">
+          <span class="text-gray-700">Tags</span>
+          <input class="block w-full mt-1 form-input" name="tags" value="<%= @movie["tags"] %>" />
+        </label>
+
+        <label class="block">
+          <span class="text-gray-700">Plot</span>
+          <textarea class="block w-full mt-1 form-input" name="plot" rows="4"><%= @movie["plot"] %></textarea>
+        </label>
+      </div>
+
+      <div class="col-start-1 col-end-2">
+        <button class="px-2 py-2 bg-blue-400 w-[100px] rounded-md">Save</button>
+      </div>
+    </form>
+  </div>
+
+</div>
