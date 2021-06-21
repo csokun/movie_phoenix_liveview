@@ -7,9 +7,6 @@
 # General application configuration
 use Mix.Config
 
-config :movie,
-  ecto_repos: [Movie.Repo]
-
 # Configures the endpoint
 config :movie, MovieWeb.Endpoint,
   url: [host: "localhost"],

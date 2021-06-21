@@ -12,8 +12,6 @@ defmodule Movie.Application do
 
   def start(_type, _args) do
     children = [
-      # Start the Ecto repository
-      Movie.Repo,
       {Movie.MediaServer, media_server_config()},
       # Start the Telemetry supervisor
       MovieWeb.Telemetry,
