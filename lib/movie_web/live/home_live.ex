@@ -1,5 +1,7 @@
 defmodule MovieWeb.HomeLive do
-  use MovieWeb, :live_view
+  use Surface.LiveView
+
+  alias MovieWeb.{MovieCard, SearchInput, ProductTag}
 
   @impl true
   def mount(_params, _session, socket) do
@@ -49,7 +51,7 @@ defmodule MovieWeb.HomeLive do
     movies = Movie.MediaServer.find_movies(query)
 
     case length(movies) == 0 do
-      true -> nil
+      true -> []
       false -> movies
     end
   end

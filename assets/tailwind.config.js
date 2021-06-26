@@ -2,6 +2,7 @@ module.exports = {
   mode: 'jit',
   purge: [
     '../lib/**/*.ex',
+    '../lib/**/*.sface',
     '../lib/**/*.leex',
     '../lib/**/*.eex',
     './js/**/*.js'

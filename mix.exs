@@ -42,6 +42,7 @@ defmodule Movie.MixProject do
       {:phoenix_live_dashboard, "~> 0.4"},
       {:telemetry_metrics, "~> 0.4"},
       {:telemetry_poller, "~> 0.4"},
+      {:surface, "~> 0.5.0"},
       {:gettext, "~> 0.11"},
       {:mime, "~> 1.6.0"},
       {:jason, "~> 1.2"},

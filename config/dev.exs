@@ -57,6 +57,7 @@ config :movie, MovieWeb.Endpoint,
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
       ~r"lib/movie_web/(live|views)/.*(ex)$",
+      ~r"lib/movie_web/live/.*(sface)$",
       ~r"lib/movie_web/templates/.*(eex)$"
     ]
   ]
