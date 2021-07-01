@@ -7,10 +7,10 @@
 
       <div class="px-2 w-full">
         <a class="font-semibold text-small hover:underline" href={watch_link(@movie)} alt="watch">{@movie["code"]}</a>
-        <div><p class="line-clamp-1">{@movie["description"]}</p></div>
+        <div><p class="text-sm line-clamp-1">{@movie["description"]}</p></div>
         <div class="flex flex-wrap space-x-2 py-1">
           {#for tag <- get_tags(@movie["tags"])}
-            <a class="px-2 py-1 rounded-full bg-gray-300" href={"/?q=" <> tag} alt="">{tag}</a>
+            <a class="text-sm px-2 py-1 rounded-full bg-gray-300" href={"/?q=" <> tag} alt="">{tag}</a>
           {/for}
         </div>
       </div>

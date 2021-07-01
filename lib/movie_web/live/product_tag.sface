@@ -1,7 +1,7 @@
 <LivePatch to={link_to(@production)} replace=true
   class="flex items-center justify-between space-x-2 m-1 px-2 py-1 bg-gray-300 w-[100px] rounded-md hover:cursor-pointer">
-    <span class="hover:underline">{@production.code}</span>
-    <span class="flex items-center justify-center text-white bg-gray-400 rounded-full w-7 h-7">
+    <span class="text-sm hover:underline">{@production.code}</span>
+    <span class="text-sm flex items-center justify-center text-white bg-gray-400 rounded-full w-6 h-6">
       {@production.movie_count}
     </span>
 </LivePatch>
