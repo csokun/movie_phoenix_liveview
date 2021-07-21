@@ -14,4 +14,8 @@ defmodule MovieWeb.MovieCard do
     tags
     |> String.split(";")
   end
+
+  defp get_image(movie) do
+    [movie["catalog_id"], movie["image"]] |> Enum.join("/")
+  end
 end

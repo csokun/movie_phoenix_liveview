@@ -26,10 +26,15 @@ defmodule MovieWeb.Endpoint do
     gzip: false,
     only: ~w(css fonts images js favicon.ico robots.txt)
 
-  plug Plug.Static,
-    at: "/catalog",
-    gzip: false,
-    from: System.fetch_env!("MEDIA_PATH")
+  ([] ++ System.fetch_env!("MEDIA_PATH"))
+  |> String.split(";")
+  |> Enum.with_index()
+  |> Enum.map(fn {path, idx} ->
+    plug Plug.Static,
+      at: "/catalog-#{idx}",
+      gzip: false,
+      from: path
+  end)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.

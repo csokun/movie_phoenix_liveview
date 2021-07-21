@@ -1,9 +1,13 @@
 defmodule Movie.Media do
-  def get_movies(path) do
+  def get_movies(path, catalog_id) do
     File.ls!(path)
     |> Enum.filter(fn f -> File.dir?("#{path}/#{f}") end)
     |> Enum.map(fn f ->
-      get_metadata(Path.join(path, f))
+      metadata = get_metadata(Path.join(path, f))
+
+      metadata
+      |> put_in(["image"], metadata["image"] |> String.replace("/catalog", ""))
+      |> put_in(["catalog_id"], catalog_id)
     end)
   end
 
@@ -35,7 +39,7 @@ defmodule Movie.Media do
         File.exists?("#{path}/#{code}.#{extension}")
       end)
 
-    image = "/catalog/#{code}/#{code}.#{ext}"
+    image = "/#{code}/#{code}.#{ext}"
 
     video_file = Path.join(path, "#{code}.mp4")
     content_type = MIME.from_path(video_file)
@@ -43,6 +47,7 @@ defmodule Movie.Media do
 
     %{
       "code" => code,
+      "catalog_id" => "",
       "performers" => "",
       "description" => "",
       "production" => code |> String.split("-") |> hd,

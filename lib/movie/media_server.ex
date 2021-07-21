@@ -68,7 +68,17 @@ defmodule Movie.MediaServer do
   def handle_continue(:loading, state) do
     %{path: path} = state.options
     # scan media
-    movies = Media.get_movies(path)
+    movies =
+      path
+      |> String.split(";")
+      |> Enum.with_index()
+      |> Enum.map(fn {p, idx} ->
+        Task.async(fn -> Media.get_movies(p, "/catalog-#{idx}") end)
+      end)
+      |> Enum.map(&Task.await/1)
+      |> List.flatten()
+
+    # movies = Media.get_movies(path)
     productions = extract_productions_from_movies(movies)
     {:noreply, %{state | movies: movies, productions: productions}}
   end
