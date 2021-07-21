@@ -5,13 +5,17 @@ defmodule Movie.Media do
     |> Enum.map(fn f ->
       metadata = get_metadata(Path.join(path, f))
 
+      video_file = "#{path}/#{metadata["code"]}/#{metadata["code"]}.mp4"
+
       metadata
       |> put_in(["image"], metadata["image"] |> String.replace("/catalog", ""))
+      |> put_in(["video_file"], video_file)
+      |> put_in(["path"], path)
       |> put_in(["catalog_id"], catalog_id)
     end)
   end
 
-  def save_metadata(%{"code" => code} = movie, catalog_path) do
+  def save_metadata(%{"code" => code, "path" => catalog_path} = movie) do
     metadata_file = Path.join([catalog_path, code, "metadata.json"])
     File.write!(metadata_file, Jason.encode!(movie), [:write, {:encoding, :utf8}])
   end

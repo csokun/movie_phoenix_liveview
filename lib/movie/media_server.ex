@@ -24,9 +24,8 @@ defmodule Movie.MediaServer do
   end
 
   def handle_cast({:save_metadata, movie}, state) do
-    %{options: %{path: path}} = state
     %{"code" => code} = movie
-    Media.save_metadata(movie, path)
+    Media.save_metadata(movie)
 
     movies =
       state.movies
@@ -49,7 +48,7 @@ defmodule Movie.MediaServer do
 
   def find_movies(search) do
     pattern = ~r/#{search}/i
-    searchable_fields = ["code", "performers", "description"]
+    searchable_fields = ["code", "performers"]
 
     get_movies()
     |> Enum.filter(fn movie ->
@@ -58,6 +57,7 @@ defmodule Movie.MediaServer do
         Regex.match?(pattern, movie["#{field}"] || "")
       end)
     end)
+    |> Enum.sort_by(& &1["code"])
   end
 
   def get_productions() do
@@ -99,5 +99,6 @@ defmodule Movie.MediaServer do
     |> Enum.map(fn {production, movies} ->
       %{code: production, movie_count: length(movies)}
     end)
+    |> Enum.sort_by(& &1.code)
   end
 end
