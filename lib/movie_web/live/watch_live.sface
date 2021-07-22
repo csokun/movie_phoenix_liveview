@@ -1,6 +1,6 @@
 <div class="container mx-auto">
-  <video class="w-full h-auto" muted controls preload="metadata" poster="<%=@movie["catalog_id"] %>/<%= @movie["image"] %>">
-    <source src="/stream/<%= @movie["code"] %>" type="video/mp4" />
+  <video class="w-full h-auto" muted controls preload="metadata" poster={get_image(@movie)}>
+    <source src={get_stream_url(@movie)} type="video/mp4" />
   </video>
 
   <div class="px-4 py-4 my-5 bg-gray-300 rounded-md">
@@ -10,29 +10,29 @@
       <div class="grid grid-cols-1 gap-2">
         <label class="block">
           <span class="text-gray-700">Movie #</span>
-          <input class="block w-full mt-1 bg-gray-300 form-input" readonly name="code" value="<%= @movie["code"] %>" />
+          <input class="block w-full mt-1 bg-gray-300 form-input" readonly name="code" value={@movie["code"]} />
         </label>
 
         <label class="block">
           <span class="text-gray-700">Production</span>
-          <input class="block w-full mt-1 form-input" name="production" value="<%= @movie["production"] %>" />
+          <input class="block w-full mt-1 form-input" name="production" value={@movie["production"]} />
         </label>
 
         <label class="block">
           <span class="text-gray-700">Performers</span>
-          <input class="block w-full mt-1 form-input" name="performers" value="<%= @movie["performers"] %>" />
+<input class="block w-full mt-1 form-input" name="performers" value={@movie["performers"]} />
         </label>
       </div>
 
       <div class="grid grid-cols-1">
         <label class="block">
           <span class="text-gray-700">Tags</span>
-          <input class="block w-full mt-1 form-input" name="tags" value="<%= @movie["tags"] %>" />
+<input class="block w-full mt-1 form-input" name="tags" value={@movie["tags"]} />
         </label>
 
         <label class="block">
           <span class="text-gray-700">Description</span>
-          <textarea class="block w-full mt-1 form-input" name="description" rows="4"><%= @movie["description"] %></textarea>
+          <textarea class="block w-full mt-1 form-input" name="description" rows="4">{@movie["description"]}</textarea>
         </label>
       </div>
 
@@ -42,4 +42,12 @@
     </form>
   </div>
 
+  <h1 class="text-2xl">Other movies perform by {@movie["performers"]}</h1>
+  <div class="mt-4 mb-4 grid grid-cols-1 lg:grid-cols-2 gap-1 lg:gap-2">
+    {#for movie <- @movies}
+       <MovieCard {=movie} />
+    {#else}
+    Not found any movies from same artists.
+    {/for}
+    </div>
 </div>

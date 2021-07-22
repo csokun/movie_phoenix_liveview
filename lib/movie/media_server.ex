@@ -23,20 +23,6 @@ defmodule Movie.MediaServer do
     GenServer.cast(__MODULE__, {:save_metadata, movie})
   end
 
-  def handle_cast({:save_metadata, movie}, state) do
-    %{"code" => code} = movie
-    Media.save_metadata(movie)
-
-    movies =
-      state.movies
-      |> Enum.map(fn
-        %{"code" => ^code} -> movie
-        item -> item
-      end)
-
-    {:noreply, %{state | movies: movies}}
-  end
-
   def get_movies() do
     GenServer.call(__MODULE__, :get_movies)
   end
@@ -65,6 +51,20 @@ defmodule Movie.MediaServer do
   end
 
   # server callback
+  def handle_cast({:save_metadata, movie}, state) do
+    %{"code" => code} = movie
+    Media.save_metadata(movie)
+
+    movies =
+      state.movies
+      |> Enum.map(fn
+        %{"code" => ^code} -> movie
+        item -> item
+      end)
+
+    {:noreply, %{state | movies: movies}}
+  end
+
   def handle_continue(:loading, state) do
     %{path: path} = state.options
     # scan media
