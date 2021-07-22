@@ -1,5 +1,5 @@
 <div class="relative border-4 border-pink-200 shadow-lg border-white-300 hover:border-pink-400 group">
-  <img class="object-cover w-full md:h-full" src={get_image(@movie)} alt="" width="640" height="400" loading="lazy">
+  <img class="object-cover w-full md:h-full" src={get_image(@movie)} alt="" loading="lazy">
 
   <div class="absolute bottom-0 w-full h-24 px-2 bg-pink-300 opacity-90 group-hover:bg-pink-400">
     <div class="flex items-center h-full">
